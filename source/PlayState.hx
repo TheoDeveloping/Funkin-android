@@ -935,6 +935,10 @@ class PlayState extends MusicBeatState
 	function startCountdown():Void
 	{
 		inCutscene = false;
+		
+		#if mobileC
+		mcontrols.visible = true;
+		#end
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
@@ -1734,9 +1738,11 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
+		
 		#if mobileC
 		mcontrols.visible = false;
 		#end
+		
 		if (SONG.validScore)
 		{
 			#if !switch
