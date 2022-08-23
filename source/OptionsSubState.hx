@@ -32,6 +32,14 @@ class OptionsSubState extends MusicBeatSubstate
 			grpOptionsTexts.add(optionText);
 		}
 	}
+	override function create()
+	{
+		#if mobileC
+		addVirtualPad(UP_DOWN, A_B);
+		#end
+
+		super.create();
+	}
 
 	override function update(elapsed:Float)
 	{
@@ -61,10 +69,21 @@ class OptionsSubState extends MusicBeatSubstate
 		{
 			switch (textMenuItems[curSelected])
 			{
+				#if desktop
 				case "Controls":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new ControlsSubState());
+				#elseif mobileC
+				case "Controls":
+				    FlxG.state.closeSubState();
+				    FlxG.switchState(new ControlEditorState());
+				#end
 			}
+		}
+		if (controls.BACK)
+		{
+		    //OMG HARD CODING CUZ IM PRO
+		    FlxG.switchState(new MainMenuState());
 		}
 	}
 }

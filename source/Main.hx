@@ -53,12 +53,6 @@ class Main extends Sprite
 	{
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
-		
-		#if mobile
-		gameWidth = 1280;
-		gameHeight = 720;
-		zoom = 1;
-		#end
 
 		if (zoom == -1)
 		{
@@ -72,10 +66,17 @@ class Main extends Sprite
 		#if !debug
 		initialState = TitleState;
 		#end
+		
+		#if android
+		zoom = 1;
+		gameWidth = 1280;
+		gameHeight = 720;
+		#end//ldog, you're mad?
 
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
-		addChild(new FPS(10, 3, 0xFFFFFF)); //amo Los Penes
-		//-peppy
+		//#if !mobile
+		addChild(new FPS(10, 3, 0xFFFFFF));
+		//#end for fps showing lol
 	}
 }

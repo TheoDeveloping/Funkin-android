@@ -41,6 +41,9 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+#if mobile
+import mobilecontrols.Mobilecontrols;
+#end
 
 using StringTools;
 
@@ -132,6 +135,10 @@ class PlayState extends MusicBeatState
 	var songLength:Float = 0;
 	var detailsText:String = "";
 	var detailsPausedText:String = "";
+	#end
+	
+	#if mobile
+	var mcontrols:Mobilecontrols; 
 	#end
 
 	override public function create()
@@ -754,6 +761,32 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+		
+		//mobile shit
+	    #if mobileC
+			mcontrols = new Mobilecontrols();
+			switch (mcontrols.mode)
+			{
+				case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+					controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+				case HITBOX:
+					controls.setHitBox(mcontrols._hitbox);
+				default:
+			}
+			
+			trackedinputs = controls.trackedinputs;
+			controls.trackedinputs = [];
+
+			var camcontrol = new FlxCamera();
+			FlxG.cameras.add(camcontrol);
+			camcontrol.bgColor.alpha = 0;
+			mcontrols.cameras = [camcontrol];
+
+			//mcontrols.visible = false;
+			mcontrols.alpha = 0;
+
+			add(mcontrols);
+		#end
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -906,6 +939,20 @@ class PlayState extends MusicBeatState
 
 	function startCountdown():Void
 	{
+	    #if mobileC
+		//mcontrols.visible = true; no
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
+		{
+			mcontrols.alpha += 0.1;
+			if (mcontrols.alpha != 0.7){
+				tmr.reset(0.1);
+			}
+			else{
+				trace('yes');
+			}
+		});
+		#end
+		
 		inCutscene = false;
 
 		generateStaticArrows(0);
@@ -1703,6 +1750,19 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+	    #if mobileC
+		//aaa -ZackGamerz (i think lol -TheoDev)
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
+		{
+			mcontrols.alpha -= 0.1;
+			if (mcontrols.alpha != 0){
+				tmr.reset(0.1);
+			}
+			else{
+				trace('work');
+			}
+		});
+		#end
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
@@ -1733,7 +1793,6 @@ class PlayState extends MusicBeatState
 
 				if (SONG.validScore)
 				{
-					NGio.unlockMedal(60961);
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				}
 

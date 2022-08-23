@@ -144,7 +144,7 @@ class ControlEditorState extends FlxState
 		var androidback:Bool = false;
 		#end
 		if (/*exitbutton.justReleased ||*/ androidback){
-			FlxG.switchState(new OptionsMenu());
+			openSubState(new OptionsSubState());
 		}
 
 		if (FlxG.keys.justReleased.RIGHT)
