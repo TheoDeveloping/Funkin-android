@@ -42,7 +42,7 @@ import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
 #if mobile
-import mobilecontrols.Mobilecontrols;
+import ui.Mobilecontrols;
 #end
 
 using StringTools;
