@@ -3,7 +3,7 @@ package;
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.FlxSubState;
-i
+import flixel.FlxCamera;
 #if mobileC
 import ui.FlxVirtualPad;
 import flixel.input.actions.FlxActionInput;
