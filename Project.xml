@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' Mid Fight Masses'" file="Funkin-android" packageName="com.ninjamuffin99.funkin" package="com.theodev.funkin" main="Main" version="1.0" company="ninjamuffin99" />
+	<app title="Friday Night Funkin' Android" file="Funkin-android" packageName="com.theodeveloper.funkin" package="com.theodev.funkin" main="Main" version="1.0" company="theodev" />
 
      <define name="mobileC" if="mobile" />
 
@@ -42,7 +42,7 @@
 
 	<classpath name="source" />
 
-    <assets path="assets/preload/images/hitbox"/>
+    <assets path="assets/shared/images/hitbox"/>
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
