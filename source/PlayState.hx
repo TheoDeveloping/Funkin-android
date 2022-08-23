@@ -41,7 +41,6 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
-import ui.Mobilecontrols;
 
 using StringTools;
 
@@ -133,10 +132,6 @@ class PlayState extends MusicBeatState
 	var songLength:Float = 0;
 	var detailsText:String = "";
 	var detailsPausedText:String = "";
-	#end
-	#if mobileC
-	//las weas del android :vvvvvv
-	var mcontrols:Mobilecontrols; 
 	#end
 
 	override public function create()
@@ -759,29 +754,6 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-		
-		#if mobileC
-			mcontrols = new Mobilecontrols();
-			switch (mcontrols.mode)
-			{
-				case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-					controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
-				case HITBOX:
-					controls.setHitBox(mcontrols._hitbox);
-				default:
-			}
-			trackedinputs = controls.trackedinputs;
-			controls.trackedinputs = [];
-
-			var camcontrol = new FlxCamera();
-			FlxG.cameras.add(camcontrol);
-			camcontrol.bgColor.alpha = 0;
-			mcontrols.cameras = [camcontrol];
-
-			mcontrols.visible = false;
-
-			add(mcontrols);
-		#end
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -935,10 +907,6 @@ class PlayState extends MusicBeatState
 	function startCountdown():Void
 	{
 		inCutscene = false;
-		
-		#if mobileC
-		mcontrols.visible = true;
-		#end
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
@@ -1398,7 +1366,7 @@ class PlayState extends MusicBeatState
 
 		scoreTxt.text = "Score:" + songScore;
 
-		if (FlxG.keys.justPressed.ENTER  #if android || FlxG.android.justReleased.BACK #end  && startedCountdown && canPause)
+		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -1738,11 +1706,6 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		
-		#if mobileC
-		mcontrols.visible = false;
-		#end
-		
 		if (SONG.validScore)
 		{
 			#if !switch
@@ -1770,7 +1733,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.validScore)
 				{
-					//NGio.unlockMedal(60961); zzzzzz
+					NGio.unlockMedal(60961);
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				}
 
